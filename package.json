@@ -1,6 +1,5 @@
 {
   "name": "react-lazyx",
-  "private": true,
   "version": "0.1.0",
   "description": "React bindings for Lazyx",
   "main": "es/index.js",
