@@ -28,7 +28,7 @@ ReactDOM.render(
 `connect` is a function that connects custom React component to the Lazyx store. It has following signature:
 ```typescript
 type MapTreeToTransformers = (tree: Tree) => {[key: string]: Observable<any>};
-type MapTransformersToProps = (receivedDataMap: {[key: string]: any}) => ({[key: string]: any});
+type MapTransformersToProps = <T>(receivedDataMap: {[key: string]: any}, ownProps: T) => ({[key: string]: any});
 
 function connect(mapTreeToTransformers: MapTreeToTransformers, mapTransformersToProps?: MapTransformersToProps): React.Component;
 ```
