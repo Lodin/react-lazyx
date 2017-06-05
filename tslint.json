@@ -2,6 +2,7 @@
   "extends": "tslint-config-poetez",
   "rules": {
     "export-name": false,
+    "one-variable-per-declaration": [true, "ignore-for-loop"],
     "no-any": false,
     "no-invalid-this": false,
     "no-unsafe-any": false
