@@ -3,7 +3,7 @@ import {Observable} from 'rxjs/Observable';
 import {combineLatest} from 'rxjs/observable/combineLatest';
 import {Subscription} from 'rxjs/Subscription';
 import {storeShape} from '../utils/propTypes';
-import {StoreContext} from '../utils/types';
+import {StoreContainer} from '../utils/types';
 
 type ComponentClass<P> = React.ComponentClass<P>;
 type StatelessComponent<P> = React.StatelessComponent<P>;
@@ -27,7 +27,7 @@ export default function connect<TMappedProps, TOwnProps>(
     };
 
     public props: TOwnProps;
-    public context: StoreContext<any>;
+    public context: StoreContainer;
 
     private subscription: Subscription;
 
