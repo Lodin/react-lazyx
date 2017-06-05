@@ -9,55 +9,63 @@ type ComponentClass<P> = React.ComponentClass<P>;
 type StatelessComponent<P> = React.StatelessComponent<P>;
 type Component<P> = ComponentClass<P> | StatelessComponent<P>;
 
-type ComponentDecorator<TMergedProps> =
-  <TOwnProps>(component: Component<(TOwnProps & TMergedProps) | TOwnProps>) => ComponentClass<TOwnProps>;
+type ComponentDecorator<TMappedProps, TOwnProps> =
+  (component: Component<(TOwnProps & TMappedProps) | TOwnProps>) => ComponentClass<TOwnProps>;
 
-type MapTreeToTransformers = (tree: any) => { [key: string]: Observable<any> };
+type TransformersMap = { [key: string]: Observable<any> };
+type MapTreeToTransformers<TTransformers extends TransformersMap> = (tree: any) => TTransformers;
 type MapTransformersToProps<TMappedProps, TOwnProps> = (receivedProps: any, ownProps: TOwnProps) => TMappedProps;
 
-type ConnectState = {};
-
-export default function connect<TMappedProps, TOwnProps>(
-  mapTreeToTransformers: MapTreeToTransformers,
+export default function connect<TTransformers extends TransformersMap, TMappedProps, TOwnProps>(
+  mapTreeToTransformers: MapTreeToTransformers<TTransformers>,
   mapTransformersToProps?: MapTransformersToProps<TMappedProps, TOwnProps>,
-): ComponentDecorator<TMappedProps> {
-  return WrappedComponent => class Connect extends React.Component<TOwnProps, ConnectState> {
-    public static contextTypes = {
-      store: storeShape.isRequired,
+): ComponentDecorator<TMappedProps, TOwnProps> {
+  // tslint:disable-next-line:typedef
+  return function wrapWithConnect(WrappedComponent) {
+    return class Connect extends React.Component<TOwnProps, TMappedProps> {
+      public static contextTypes = {
+        store: storeShape.isRequired,
+      };
+
+      public props: TOwnProps;
+      public context: StoreContainer;
+
+      private subscription: Subscription;
+
+      public componentDidMount(): void {
+        const tree = this.context.store.getTree();
+        const map = mapTreeToTransformers(tree);
+
+        const [keys, transformers] = keysAndValues(map);
+
+        const combined = combineLatest.call(Observable, transformers, (...values) => {
+          const result = {};
+
+          for (let i = 0, len = keys.length; i < len; i += 1) {
+            result[keys[i]] = values[i];
+          }
+
+          return result;
+        });
+
+        this.subscription = combined.subscribe((values) => {
+          const mappedProps = mapTransformersToProps(values, this.props);
+          this.setState(mappedProps);
+        });
+      }
+
+      public componentWillUnmount(): void {
+        this.subscription.unsubscribe();
+      }
+
+      public render(): React.ReactElement<(TOwnProps & TMappedProps) | TOwnProps> {
+        return <WrappedComponent {...this.props} {...this.state}/>;
+      }
     };
-
-    public props: TOwnProps;
-    public context: StoreContainer;
-
-    private subscription: Subscription;
-
-    public componentDidMount(): void {
-      const [keys, transformers] = getEntries(mapTreeToTransformers(this.context.store.getTree()));
-
-      const combined = combineLatest.call(Observable, transformers, (...values) => {
-        const result = {};
-
-        for (let i = 0, len = keys.length; i < len; i += 1) {
-          result[keys[i]] = values[i];
-        }
-
-        return result;
-      });
-
-      this.subscription = combined.subscribe(values => this.setState(mapTransformersToProps(values, this.props)));
-    }
-
-    public componentWillUnmount(): void {
-      this.subscription.unsubscribe();
-    }
-
-    public render(): React.ReactElement<(TOwnProps & TMappedProps) | TOwnProps> {
-      return <WrappedComponent {...(this.props as any)} {...this.state}/>;
-    }
   };
 }
 
-function getEntries(transformers: { [key: string]: Observable<any> }): [string[], Observable<any>[]] {
+function keysAndValues<TTransformers extends TransformersMap>(transformers: TTransformers): [string[], Observable<any>[]] {
   const keys = Object.keys(transformers);
   const result = new Array(keys.length);
 
