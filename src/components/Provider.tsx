@@ -2,21 +2,18 @@ import {Store} from 'lazyx';
 import * as PropTypes from 'prop-types';
 import {ChildContextProvider, Children, Component, ReactChildren, ReactElement} from 'react';
 import {storeShape} from '../utils/propTypes';
+import {StoreContext} from '../utils/types';
 
-export interface ProviderProps<T> {
+export interface ProviderProps<Tree> {
   children: ReactChildren;
-  store: Store<T>;
-}
-
-export interface ProviderChildContext<T> {
-  store: Store<T>;
+  store: Store<Tree>;
 }
 
 type ProviderState = null;
 
-export default class Provider<T>
-  extends Component<ProviderProps<T>, ProviderState>
-  implements ChildContextProvider<ProviderChildContext<T>> {
+export default class Provider<Tree>
+  extends Component<ProviderProps<Tree>, ProviderState>
+  implements ChildContextProvider<StoreContext<Tree>> {
 
   public static propTypes = {
     children: PropTypes.element.isRequired,
@@ -27,15 +24,15 @@ export default class Provider<T>
     store: storeShape.isRequired,
   };
 
-  public props: ProviderProps<T>;
-  private store: Store<T>;
+  public props: ProviderProps<Tree>;
+  private store: Store<Tree>;
 
-  public constructor(props: ProviderProps<T>, context?: any) {
+  public constructor(props: ProviderProps<Tree>, context?: any) {
     super(props, context);
     this.store = props.store;
   }
 
-  public getChildContext(): ProviderChildContext<T> {
+  public getChildContext(): StoreContext<Tree> {
     return {store: this.store};
   }
 
