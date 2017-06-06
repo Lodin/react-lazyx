@@ -34,7 +34,7 @@ export default function connect<TTransformers extends TransformersMap, TMappedPr
         const combined = combineLatest.call(Observable, transformers, mapCombinedValuesFactory(keys));
 
         this.subscription = combined.subscribe((values) => {
-          const mappedProps = mapTransformersToProps(values, this.props);
+          const mappedProps = mapTransformersToProps ? mapTransformersToProps(values, this.props) : values;
           this.setState(mappedProps);
         });
       }
