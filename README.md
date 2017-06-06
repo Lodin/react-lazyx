@@ -55,11 +55,11 @@ as is. If the result object does not have some emitted values, they will be excl
 export class MyTodosComponent extends React.Component {}
 ```
 
-### associate
-`associate` is a function that connects custom React component to the dynamic elements of the Lazyx store, like arrays 
+### connectDynamically
+`connectDynamically` is a function that connects custom React component to the dynamic elements of the Lazyx store, like arrays 
 or object dictionaries, by receiving them as props. Function signature is following:
 ```typescript
-function associate(mapTransformersToProps?: MapTransformersToProps): React.Component;
+function connectDynamically(mapTransformersToProps?: MapTransformersToProps): React.Component;
 ```
 The result component has additional property `transformers` that receives map of transformers. 
 
@@ -69,7 +69,7 @@ of `connect` function.
 
 #### Examples 
 ```typescript jsx
-@associate(
+@connectDynamically(
   ({todo}) => ({
     name: todo.name
   })
