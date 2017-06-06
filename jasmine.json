@@ -5,6 +5,7 @@
   ],
   "helpers": [
     "../config/test/reporters.js",
-    "../config/test/parser.js"
+    "../config/test/parser.js",
+    "../node_modules/jsdom-global/register.js"
   ]
 }
