@@ -14,7 +14,9 @@ export type TransformersMap = { [key: string]: Observable<any> };
 
 export type Component<P> = ComponentClass<P> | StatelessComponent<P>;
 
+export type WrappedComponentProps<TMappedProps, TOwnProps> = (TOwnProps & TMappedProps) | TOwnProps;
+
 export type ComponentDecorator<TMappedProps> =
-  <TOwnProps>(component: Component<(TOwnProps & TMappedProps) | TOwnProps>) => ComponentClass<TOwnProps>;
+  <TOwnProps>(component: Component<WrappedComponentProps<TMappedProps, TOwnProps>>) => ComponentClass<TOwnProps>;
 
 export type MapTransformersToProps<TMappedProps, TOwnProps> = (receivedProps: any, ownProps: TOwnProps) => TMappedProps;

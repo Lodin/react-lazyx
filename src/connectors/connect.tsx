@@ -1,12 +1,7 @@
 import * as React from 'react';
-import {Observable} from 'rxjs/Observable';
-import {combineLatest} from 'rxjs/observable/combineLatest';
-import {Subscription} from 'rxjs/Subscription';
-import keysAndValues from '../utils/keysAndValues';
-import mapCombinedValuesFactory from '../utils/mapCombinedValues';
+import ConnectImpl from '../components/ConnectImpl';
 import {storeShape} from '../utils/propTypes';
 import {ComponentDecorator, MapTransformersToProps, StoreContainer, TransformersMap} from '../utils/types';
-
 
 export type MapTreeToTransformers<TTransformers extends TransformersMap> = (tree: any) => TTransformers;
 
@@ -16,35 +11,20 @@ export default function connect<TTransformers extends TransformersMap, TMappedPr
 ): ComponentDecorator<TMappedProps> {
   // tslint:disable-next-line:typedef no-function-expression
   return function wrapWithConnect(WrappedComponent) {
-    return class Connect extends React.Component<TOwnProps, TMappedProps> {
+    return class Connect extends ConnectImpl<TOwnProps, TMappedProps, StoreContainer> {
       public static contextTypes = {
         store: storeShape.isRequired,
       };
 
-      public context: StoreContainer;
-
-      private subscription: Subscription;
+      constructor(props?: TOwnProps, context?: StoreContainer) {
+        super(props, context, WrappedComponent);
+      }
 
       public componentDidMount(): void {
         const tree = this.context.store.getTree();
         const map = mapTreeToTransformers(tree);
 
-        const [keys, transformers] = keysAndValues(map);
-
-        const combined = combineLatest.call(Observable, transformers, mapCombinedValuesFactory(keys));
-
-        this.subscription = combined.subscribe((values) => {
-          const mappedProps = mapTransformersToProps ? mapTransformersToProps(values, this.props) : values;
-          this.setState(mappedProps);
-        });
-      }
-
-      public componentWillUnmount(): void {
-        this.subscription.unsubscribe();
-      }
-
-      public render(): React.ReactElement<(TOwnProps & TMappedProps) | TOwnProps> {
-        return <WrappedComponent {...this.props} {...this.state}/>;
+        super.componentDidMountImpl(map, this.props, mapTransformersToProps);
       }
     };
   };
