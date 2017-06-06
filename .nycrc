@@ -1,13 +1,14 @@
 {
   "include": [
-    "src/**/*.ts"
+    "src/**/*.+(ts|tsx)"
   ],
   "exclude": [
     "node_modules/",
     "build/"
   ],
   "extension": [
-    ".ts"
+    ".ts",
+    ".tsx"
   ],
   "require": [
     "./config/test/parser"
