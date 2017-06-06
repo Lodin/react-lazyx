@@ -2,32 +2,25 @@ import * as React from 'react';
 import {Observable} from 'rxjs/Observable';
 import {combineLatest} from 'rxjs/observable/combineLatest';
 import {Subscription} from 'rxjs/Subscription';
+import keysAndValues from '../utils/keysAndValues';
+import mapCombinedValuesFactory from '../utils/mapCombinedValues';
 import {storeShape} from '../utils/propTypes';
-import {StoreContainer} from '../utils/types';
+import {ComponentDecorator, MapTransformersToProps, StoreContainer, TransformersMap} from '../utils/types';
 
-type ComponentClass<P> = React.ComponentClass<P>;
-type StatelessComponent<P> = React.StatelessComponent<P>;
-type Component<P> = ComponentClass<P> | StatelessComponent<P>;
 
-type ComponentDecorator<TMappedProps, TOwnProps> =
-  (component: Component<(TOwnProps & TMappedProps) | TOwnProps>) => ComponentClass<TOwnProps>;
-
-type TransformersMap = { [key: string]: Observable<any> };
-type MapTreeToTransformers<TTransformers extends TransformersMap> = (tree: any) => TTransformers;
-type MapTransformersToProps<TMappedProps, TOwnProps> = (receivedProps: any, ownProps: TOwnProps) => TMappedProps;
+export type MapTreeToTransformers<TTransformers extends TransformersMap> = (tree: any) => TTransformers;
 
 export default function connect<TTransformers extends TransformersMap, TMappedProps, TOwnProps>(
   mapTreeToTransformers: MapTreeToTransformers<TTransformers>,
   mapTransformersToProps?: MapTransformersToProps<TMappedProps, TOwnProps>,
-): ComponentDecorator<TMappedProps, TOwnProps> {
-  // tslint:disable-next-line:typedef
+): ComponentDecorator<TMappedProps> {
+  // tslint:disable-next-line:typedef no-function-expression
   return function wrapWithConnect(WrappedComponent) {
     return class Connect extends React.Component<TOwnProps, TMappedProps> {
       public static contextTypes = {
         store: storeShape.isRequired,
       };
 
-      public props: TOwnProps;
       public context: StoreContainer;
 
       private subscription: Subscription;
@@ -38,15 +31,7 @@ export default function connect<TTransformers extends TransformersMap, TMappedPr
 
         const [keys, transformers] = keysAndValues(map);
 
-        const combined = combineLatest.call(Observable, transformers, (...values) => {
-          const result = {};
-
-          for (let i = 0, len = keys.length; i < len; i += 1) {
-            result[keys[i]] = values[i];
-          }
-
-          return result;
-        });
+        const combined = combineLatest.call(Observable, transformers, mapCombinedValuesFactory(keys));
 
         this.subscription = combined.subscribe((values) => {
           const mappedProps = mapTransformersToProps(values, this.props);
@@ -63,15 +48,4 @@ export default function connect<TTransformers extends TransformersMap, TMappedPr
       }
     };
   };
-}
-
-function keysAndValues<TTransformers extends TransformersMap>(transformers: TTransformers): [string[], Observable<any>[]] {
-  const keys = Object.keys(transformers);
-  const result = new Array(keys.length);
-
-  for (let i = 0, len = keys.length; i < len; i += 1) {
-    result[i] = transformers[keys[i]];
-  }
-
-  return [keys, result];
 }
