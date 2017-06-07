@@ -11,7 +11,7 @@ export default class ConnectImpl<TOwnProps, TMappedProps, TContext> extends Reac
   constructor(
     props: TOwnProps | undefined,
     context: TContext | undefined,
-    protected Wrappee: Component<WrappedComponentProps<TMappedProps, TOwnProps>>,
+    protected WrappedComponent: Component<WrappedComponentProps<TMappedProps, TOwnProps>>,
   ) {
     super(props, context);
   }
@@ -49,8 +49,8 @@ export default class ConnectImpl<TOwnProps, TMappedProps, TContext> extends Reac
   }
 
   public render(): React.ReactElement<WrappedComponentProps<TOwnProps, TMappedProps>> {
-    const {Wrappee} = this;
+    const {WrappedComponent} = this;
 
-    return <Wrappee {...this.props} {...this.state}/>;
+    return <WrappedComponent {...this.props} {...this.state}/>;
   }
 }
