@@ -1,7 +1,13 @@
-import * as React from 'react';
 import ConnectImpl from '../components/ConnectImpl';
 import {storeShape} from '../utils/propTypes';
-import {ComponentDecorator, MapTransformersToProps, StoreContainer, TransformersMap} from '../utils/types';
+import {
+  Component,
+  ComponentDecorator,
+  MapTransformersToProps,
+  StoreContainer,
+  TransformersMap,
+  WrappedComponentProps,
+} from '../utils/types';
 
 export type MapTreeToTransformers<TTransformers extends TransformersMap> = (tree: any) => TTransformers;
 
@@ -10,7 +16,7 @@ export default function connect<TTransformers extends TransformersMap, TMappedPr
   mapTransformersToProps?: MapTransformersToProps<TMappedProps, TOwnProps>,
 ): ComponentDecorator<TMappedProps> {
   // tslint:disable-next-line:typedef no-function-expression
-  return function wrapWithConnect(WrappedComponent) {
+  return function wrapWithConnect(WrappedComponent: Component<WrappedComponentProps<TMappedProps, TOwnProps>>) {
     return class Connect extends ConnectImpl<TOwnProps, TMappedProps, StoreContainer> {
       public static displayName = `Connect(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
 

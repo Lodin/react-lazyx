@@ -11,7 +11,7 @@ export default class ConnectImpl<TOwnProps, TMappedProps, TContext> extends Reac
   constructor(
     props: TOwnProps | undefined,
     context: TContext | undefined,
-    protected Wrappee: Component<WrappedComponentProps<TOwnProps, TMappedProps>>,
+    protected Wrappee: Component<WrappedComponentProps<TMappedProps, TOwnProps>>,
   ) {
     super(props, context);
   }
@@ -38,7 +38,7 @@ export default class ConnectImpl<TOwnProps, TMappedProps, TContext> extends Reac
       return result;
     });
 
-    this.subscription = combined.subscribe((values) => {
+    this.subscription = combined.subscribe((values: any) => {
       const mappedProps = mapTransformersToProps ? mapTransformersToProps(values, ownProps) : values;
       this.setState(mappedProps);
     });
