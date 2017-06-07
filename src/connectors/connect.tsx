@@ -12,6 +12,8 @@ export default function connect<TTransformers extends TransformersMap, TMappedPr
   // tslint:disable-next-line:typedef no-function-expression
   return function wrapWithConnect(WrappedComponent) {
     return class Connect extends ConnectImpl<TOwnProps, TMappedProps, StoreContainer> {
+      public static displayName = `Connect(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
+
       public static contextTypes = {
         store: storeShape.isRequired,
       };

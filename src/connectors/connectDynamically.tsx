@@ -13,6 +13,8 @@ export default function connectDynamically<TMappedProps, TOwnProps>(
   // tslint:disable-next-line:typedef no-function-expression
   return function wrapWitnDynamicConnect(WrappedComponent) {
     return class DynamicConnect extends ConnectImpl<TOwnProps & TransformersProp, TMappedProps, null> {
+      public static displayName = `DynamicConnect(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
+
       public static propTypes = {
         transformers: PropTypes.object.isRequired,
       };
