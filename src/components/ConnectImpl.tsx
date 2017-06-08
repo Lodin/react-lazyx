@@ -2,7 +2,7 @@ import * as React from 'react';
 import {Observable} from 'rxjs/Observable';
 import {combineLatest} from 'rxjs/observable/combineLatest';
 import {Subscription} from 'rxjs/Subscription';
-import {Component, Dictionary, MapTransformersToProps, TransformersMap, WrappedComponentProps} from '../utils/types';
+import {Dictionary, IWrappedComponent, MapTransformersToProps, TransformersMap} from '../utils/types';
 
 export default class ConnectImpl<TOwnProps, TMappedProps, TContext> extends React.Component<TOwnProps, TMappedProps> {
   public context: TContext;
@@ -11,7 +11,7 @@ export default class ConnectImpl<TOwnProps, TMappedProps, TContext> extends Reac
   constructor(
     props: TOwnProps | undefined,
     context: TContext | undefined,
-    protected WrappedComponent: Component<WrappedComponentProps<TMappedProps, TOwnProps>>,
+    protected WrappedComponent: IWrappedComponent<TMappedProps, TOwnProps>,
   ) {
     super(props, context);
   }
@@ -48,7 +48,7 @@ export default class ConnectImpl<TOwnProps, TMappedProps, TContext> extends Reac
     this.subscription.unsubscribe();
   }
 
-  public render(): React.ReactElement<WrappedComponentProps<TOwnProps, TMappedProps>> {
+  public render(): JSX.Element | null {
     const {WrappedComponent} = this;
 
     return <WrappedComponent {...this.props} {...this.state}/>;

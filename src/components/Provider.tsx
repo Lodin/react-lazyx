@@ -1,6 +1,6 @@
 import {Store} from 'lazyx';
 import * as PropTypes from 'prop-types';
-import {ChildContextProvider, Children, Component, ReactElement} from 'react';
+import {ChildContextProvider, Children, Component} from 'react';
 import {storeShape} from '../utils/propTypes';
 import {StoreContainer} from '../utils/types';
 
@@ -29,7 +29,7 @@ export function createProvider(env: string): any {
       return {store: this.store};
     }
 
-    public render(): ReactElement<any> {
+    public render(): JSX.Element | null {
       return Children.only(this.props.children);
     }
   }
