@@ -4,22 +4,23 @@ import {combineLatest} from 'rxjs/observable/combineLatest';
 import {Subscription} from 'rxjs/Subscription';
 import {Dictionary, IWrappedComponent, MapTransformersToProps, TransformersMap} from '../utils/types';
 
-export default class ConnectImpl<TOwnProps, TMappedProps, TContext> extends React.Component<TOwnProps, TMappedProps> {
+export default class ConnectImpl<TWrapperProps, TWrappeeProps, TMappedProps, TContext>
+  extends React.Component<TWrapperProps, TMappedProps> {
   public context: TContext;
   private subscription: Subscription;
 
   constructor(
-    props: TOwnProps | undefined,
+    props: TWrapperProps | undefined,
     context: TContext | undefined,
-    protected WrappedComponent: IWrappedComponent<TMappedProps, TOwnProps>,
+    protected WrappedComponent: IWrappedComponent<TMappedProps, TWrappeeProps>,
   ) {
     super(props, context);
   }
 
-  protected componentDidMountImpl<T extends TOwnProps>(
+  protected componentDidMountImpl<T extends TWrappeeProps>(
     map: TransformersMap,
     ownProps: T,
-    mapTransformersToProps?: MapTransformersToProps<TMappedProps, TOwnProps>,
+    mapTransformersToProps?: MapTransformersToProps<TMappedProps, TWrappeeProps>,
   ): void {
     const keys = Object.keys(map);
     const transformers = new Array(keys.length);
@@ -48,9 +49,9 @@ export default class ConnectImpl<TOwnProps, TMappedProps, TContext> extends Reac
     this.subscription.unsubscribe();
   }
 
-  public render(): JSX.Element | null {
+  public renderImpl(props: TWrappeeProps): JSX.Element | null {
     const {WrappedComponent} = this;
 
-    return <WrappedComponent {...this.props} {...this.state}/>;
+    return <WrappedComponent {...props} {...this.state}/>;
   }
 }

@@ -7,10 +7,10 @@ export type MapTreeToTransformers<TTransformers extends TransformersMap> = (tree
 export default function connect<TTransformers extends TransformersMap, TMappedProps, TOwnProps>(
   mapTreeToTransformers: MapTreeToTransformers<TTransformers>,
   mapTransformersToProps?: MapTransformersToProps<TMappedProps, TOwnProps>,
-): ComponentDecorator<TMappedProps> {
+): ComponentDecorator<TMappedProps, TOwnProps, TOwnProps> {
   // tslint:disable-next-line:typedef no-function-expression
   return function wrapWithConnect(WrappedComponent: IWrappedComponent<TMappedProps, TOwnProps>) {
-    return class Connect extends ConnectImpl<TOwnProps, TMappedProps, StoreContainer> {
+    return class Connect extends ConnectImpl<TOwnProps, TOwnProps, TMappedProps, StoreContainer> {
       public static displayName = `Connect(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
 
       public static contextTypes = {
@@ -26,6 +26,10 @@ export default function connect<TTransformers extends TransformersMap, TMappedPr
         const map = mapTreeToTransformers(tree);
 
         super.componentDidMountImpl(map, this.props, mapTransformersToProps);
+      }
+
+      public render(): JSX.Element | null {
+        return this.renderImpl(this.props);
       }
     };
   };

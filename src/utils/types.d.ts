@@ -16,7 +16,7 @@ export type Component<P> = ComponentClass<P> | StatelessComponent<P>;
 
 export type IWrappedComponent<TMappedProps, TOwnProps> = Component<(TOwnProps & TMappedProps) | TOwnProps>;
 
-export type ComponentDecorator<TMappedProps> =
-  <TOwnProps>(component: IWrappedComponent<TMappedProps, TOwnProps>) => ComponentClass<TOwnProps>;
+export type ComponentDecorator<TMappedProps, TWrapperProps, TWrappeeProps> =
+  (component: IWrappedComponent<TMappedProps, TWrappeeProps>) => ComponentClass<TWrapperProps>;
 
 export type MapTransformersToProps<TMappedProps, TOwnProps> = (receivedProps: any, ownProps: TOwnProps) => TMappedProps;
