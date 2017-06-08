@@ -18,8 +18,7 @@ describe('Component <Provider>', () => {
   });
 
   beforeEach(() => {
-    consoleError = spyOn(console, 'error');
-    consoleError.and.callThrough();
+    consoleError = spyOn(console, 'error').and.callThrough();
 
     store = jasmine.createSpyObj('Store', ['attach', 'getTree']);
   });
@@ -67,9 +66,8 @@ describe('Component <Provider>', () => {
   });
 
   it('should provide Lazyx store to the children', () => {
-    const Child = jasmine.createSpy('ChildComponent');
+    const Child = jasmine.createSpy('ChildComponent').and.returnValue(<div/>);
     (Child as any).contextTypes = {store: storeShape.isRequired};
-    Child.and.returnValue(<div/>);
 
     mount(
       <Provider store={store}>

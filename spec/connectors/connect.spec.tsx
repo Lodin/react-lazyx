@@ -13,8 +13,7 @@ describe('Decorator "connect"', () => {
   let trigger: Subject<string>;
 
   beforeEach(() => {
-    container = jasmine.createSpy('ContainerComponent');
-    container.and.returnValue(null);
+    container = jasmine.createSpy('ContainerComponent').and.returnValue(null);
 
     trigger = new Subject();
 
@@ -42,8 +41,7 @@ describe('Decorator "connect"', () => {
       tree => ({foo: tree.foo}),
     )(container);
 
-    const connectedComponentDidMount = spyOn(Connected.prototype, 'componentDidMount');
-    connectedComponentDidMount.and.callThrough();
+    const connectedComponentDidMount = spyOn(Connected.prototype, 'componentDidMount').and.callThrough();
 
     mount(<Connected/>, {
       context: {
@@ -98,8 +96,7 @@ describe('Decorator "connect"', () => {
       tree => ({foo: tree.foo}),
     )(container);
 
-    const connectedComponentWillUnmount = spyOn(Connected.prototype, 'componentWillUnmount');
-    connectedComponentWillUnmount.and.callThrough();
+    const connectedComponentWillUnmount = spyOn(Connected.prototype, 'componentWillUnmount').and.callThrough();
 
     const mounted = mount(<Connected/>, {
       context: {
