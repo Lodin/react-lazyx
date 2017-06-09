@@ -5,6 +5,7 @@
   "main": "./commonjs/index.js",
   "module": "es/index.js",
   "jsnext:main": "es/index.js",
+  "types": "es/index.d.ts",
   "scripts": {
     "clean": "rimraf commonjs es umd coverage",
     "lint": "npm-run-all --parallel lint:*",
