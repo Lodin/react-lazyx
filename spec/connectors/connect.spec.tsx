@@ -72,7 +72,7 @@ describe('Decorator "connect"', () => {
     expect(container).toHaveBeenCalledWith({foo: 'baz'}, jasmine.anything(), jasmine.anything());
   });
 
-  it('should apply "connect" second argument to received properties', () => {
+  it('should apply "mapTransformersToProps" function to received values', () => {
     const Connected = connect(
       tree => ({foo: tree.foo}),
       ({foo}) => ({foo: `${foo}+bar`}),
