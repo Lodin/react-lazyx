@@ -1,5 +1,5 @@
-import * as PropTypes from 'prop-types';
 import ConnectImpl from '../components/ConnectImpl';
+import {transformersMap} from '../utils/propTypes';
 import {ComponentDecorator, IWrappedComponent, MapTransformersToProps, TransformersMap} from '../utils/types';
 
 export type TransformersProp = {
@@ -15,7 +15,7 @@ export default function connectDynamically<TMappedProps, TWrappeeProps>(
       public static displayName = `DynamicConnect(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
 
       public static propTypes = {
-        transformers: PropTypes.object.isRequired,
+        transformers: transformersMap.isRequired,
       };
 
       constructor(props?: TWrappeeProps & TransformersProp, context?: any) {
