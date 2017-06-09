@@ -49,7 +49,7 @@ export default class ConnectImpl<TWrapperProps, TWrappeeProps, TMappedProps, TCo
     this.subscription.unsubscribe();
   }
 
-  public renderImpl(props: TWrappeeProps): JSX.Element | null {
+  protected renderImpl(props: TWrappeeProps): JSX.Element | null {
     const {WrappedComponent} = this;
 
     return <WrappedComponent {...props} {...this.state}/>;
