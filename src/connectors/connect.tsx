@@ -8,8 +8,8 @@ export default function connect<TTransformers extends TransformersMap, TMappedPr
   mapTreeToTransformers: MapTreeToTransformers<TTransformers>,
   mapTransformersToProps?: MapTransformersToProps<TMappedProps, TOwnProps>,
 ): ComponentDecorator<TMappedProps, TOwnProps, TOwnProps> {
-  // tslint:disable-next-line:typedef no-function-expression
-  return function wrapWithConnect(WrappedComponent: IWrappedComponent<TMappedProps, TOwnProps>) {
+  // tslint:disable-next-line:no-function-expression
+  return function wrapWithConnect(WrappedComponent: IWrappedComponent<TMappedProps, TOwnProps>): any {
     return class Connect extends ConnectImpl<TOwnProps, TOwnProps, TMappedProps, StoreContainer> {
       public static displayName = `Connect(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
 
