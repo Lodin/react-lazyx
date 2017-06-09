@@ -1,5 +1,13 @@
 # react-lazyx
+
+[![Latest Stable Version](https://img.shields.io/npm/v/react-lazyx.svg)](https://www.npmjs.com/package/react-lazyx)
+[![License](https://img.shields.io/npm/l/react-lazyx.svg)](./LICENSE)
+[![Build Status](https://img.shields.io/travis/poetez/react-lazyx/master.svg)](https://travis-ci.org/poetez/react-lazyx)
+[![Test Coverage](https://img.shields.io/codecov/c/github/poetez/react-lazyx/master.svg)](https://codecov.io/gh/poetez/react-lazyx)
+
 React bindings for [Lazyx](https://github.com/poetez/lazyx).
+
+**Note**: It is an alpha release. API might change any time. Don't use in the production. 
 
 ## Installation 
 ```bash
@@ -57,7 +65,7 @@ export class MyTodosComponent extends React.Component {}
 
 ### connectDynamically
 `connectDynamically` is a function that connects custom React component to the dynamic elements of the Lazyx store, like arrays 
-or object dictionaries, by receiving them as props. Function signature is following:
+of transformers, by receiving them as props and subscribing to them. Function signature is following:
 ```typescript
 function connectDynamically(mapTransformersToProps?: MapTransformersToProps): React.Component;
 ```
