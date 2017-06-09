@@ -2,7 +2,9 @@
   "name": "react-lazyx",
   "version": "0.1.0",
   "description": "React bindings for Lazyx",
-  "main": "es/index.js",
+  "main": "./commonjs/index.js",
+  "module": "es/index.js",
+  "jsnext:main": "es/index.js",
   "scripts": {
     "clean": "rimraf commonjs es umd coverage",
     "lint": "npm-run-all --parallel lint:*",
