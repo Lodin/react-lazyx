@@ -8,11 +8,14 @@
 /.editorconfig
 /.gitignore
 /.lintstagedrc
+/.npmignore
 /.nycrc
 /.travis.yml
 /jasmine.json
 /tsconfig.json
+/tsconfig.tslint.json
 /tslint.json
+/yarn.lock
 
 # testing
 /spec
