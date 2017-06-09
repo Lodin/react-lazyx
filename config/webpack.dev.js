@@ -3,7 +3,7 @@ const paths = require('./paths');
 
 module.exports = Object.assign({}, config, {
   output: Object.assign({}, config.output, {
-    filename: 'lazyx.js',
+    filename: 'react-lazyx.js',
     path: paths.build,
   }),
   module: {

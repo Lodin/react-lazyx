@@ -4,7 +4,7 @@ const paths = require('./paths');
 
 module.exports = Object.assign({}, config, {
   output: Object.assign({}, config.output, {
-    filename: 'lazyx.min.js',
+    filename: 'react-lazyx.min.js',
     path: paths.build,
   }),
   module: {
