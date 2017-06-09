@@ -31,9 +31,12 @@
     "url": "git+https://github.com/poetez/react-lazyx.git"
   },
   "keywords": [
-    "boilerplate",
-    "typescript",
-    "library"
+    "react",
+    "reactjs",
+    "flux",
+    "redux",
+    "lazyx",
+    "reactive"
   ],
   "author": "Vlad Rindevich <rindevich.vs@gmail.com> (https://github.com/Lodin)",
   "license": "MIT",
