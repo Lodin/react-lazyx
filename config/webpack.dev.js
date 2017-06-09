@@ -9,7 +9,7 @@ module.exports = Object.assign({}, config, {
   module: {
     rules: [
       {
-        test: /\.ts$/,
+        test: /\.tsx?$/,
         include: paths.src,
         loader: 'awesome-typescript-loader',
         options: {
