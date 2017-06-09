@@ -6,6 +6,7 @@ import {Dictionary, IWrappedComponent, MapTransformersToProps, TransformersMap} 
 
 export default class ConnectImpl<TWrapperProps, TWrappeeProps, TMappedProps, TContext>
   extends React.Component<TWrapperProps, TMappedProps> {
+
   public context: TContext;
   private subscription: Subscription;
 
@@ -15,6 +16,10 @@ export default class ConnectImpl<TWrapperProps, TWrappeeProps, TMappedProps, TCo
     protected WrappedComponent: IWrappedComponent<TMappedProps, TWrappeeProps>,
   ) {
     super(props, context);
+  }
+
+  public componentWillUnmount(): void {
+    this.subscription.unsubscribe();
   }
 
   protected componentDidMountImpl<T extends TWrappeeProps>(
@@ -43,10 +48,6 @@ export default class ConnectImpl<TWrapperProps, TWrappeeProps, TMappedProps, TCo
       const mappedProps = mapTransformersToProps ? mapTransformersToProps(values, ownProps) : values;
       this.setState(mappedProps);
     });
-  }
-
-  public componentWillUnmount(): void {
-    this.subscription.unsubscribe();
   }
 
   protected renderImpl(props: TWrappeeProps): JSX.Element | null {
