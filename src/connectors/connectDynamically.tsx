@@ -2,7 +2,7 @@ import * as PropTypes from 'prop-types';
 import ConnectImpl from '../components/ConnectImpl';
 import {ComponentDecorator, IWrappedComponent, MapTransformersToProps, TransformersMap} from '../utils/types';
 
-type TransformersProp = {
+export type TransformersProp = {
   transformers: TransformersMap,
 };
 
