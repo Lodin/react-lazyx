@@ -2324,9 +2324,9 @@ lazy-cache@^1.0.3:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/lazy-cache/-/lazy-cache-1.0.4.tgz#a1d78fc3a50474cb80845d3b3b6e1da49a446e8e"
 
-lazyx@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/lazyx/-/lazyx-0.1.0.tgz#90c04acf235577c98124b3873d7154d9505ba523"
+lazyx@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/lazyx/-/lazyx-0.2.0.tgz#27ce36d5d4374b88d5f30f9744c8c304393c9e93"
   dependencies:
     is-plain-object "^2.0.1"
     tslib ">=1.7.0"
@@ -4036,12 +4036,12 @@ tslib@>=1.7.0, tslib@^1.0.0, tslib@^1.7.1:
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.7.1.tgz#bc8004164691923a79fe8378bbeb3da2017538ec"
 
-"tslint-config-poetez@https://github.com/poetez/tslint-config-poetez":
-  version "0.1.0"
-  resolved "https://github.com/poetez/tslint-config-poetez#b522d16ad12ca144f1ec9d49af1dfc22ea1fb608"
+tslint-config-poetez@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/tslint-config-poetez/-/tslint-config-poetez-0.1.1.tgz#1983998ccf9d2b1c5cf535141205a35b54450163"
   dependencies:
     tslint-eslint-rules "^4.0.0"
-    tslint-microsoft-contrib "git://github.com/Microsoft/tslint-microsoft-contrib.git#releases"
+    tslint-microsoft-contrib "^5.0.0"
     tsutils "1.6.0"
     vrsource-tslint-rules "^5.1.0"
 
@@ -4053,9 +4053,9 @@ tslint-eslint-rules@^4.0.0:
     tslib "^1.0.0"
     tsutils "^1.4.0"
 
-"tslint-microsoft-contrib@git://github.com/Microsoft/tslint-microsoft-contrib.git#releases":
+tslint-microsoft-contrib@^5.0.0:
   version "5.0.0"
-  resolved "git://github.com/Microsoft/tslint-microsoft-contrib.git#a100c6d6344793971ab0beb9dc90d046365237fb"
+  resolved "https://registry.yarnpkg.com/tslint-microsoft-contrib/-/tslint-microsoft-contrib-5.0.0.tgz#0ff6389ce3dbc5ea103782900a7806fffa1450ff"
 
 tslint@^5.2.0:
   version "5.4.3"
